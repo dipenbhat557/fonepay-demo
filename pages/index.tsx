@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { useCart } from '@/context/CartContext';
 import {products} from '@/mock';
 import styles from '@/app/product.module.css';
-import {Product} from "@/context/cartTypes";
 
 const Index = () => {
     const { addToCart, getCartItemCount } = useCart();

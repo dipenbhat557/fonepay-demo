@@ -120,7 +120,7 @@ const Cart = () => {
                 setIsGetPayReady(false);
             };
         }
-    }, [cartItems]);
+    }, [cartItems, BUNDLE_URL]);
 
     return (<LoadingOverlay
             active={isLoading}

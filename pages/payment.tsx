@@ -22,7 +22,7 @@ const Payment = () => {
         return () => {
             document.body.removeChild(script);
         };
-    }, []);
+    }, [BUNDLE_URL]);
 
     return (
         <div style={styles.container}>
