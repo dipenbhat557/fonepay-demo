@@ -15,8 +15,9 @@ declare global {
 const Cart = () => {
     const {cartItems, removeFromCart, calculateTotal, clearCart, calculateCheckoutTotal} = useCart();
     const [isLoading, setIsLoading] = useState(false);
+    const [isGetPayReady, setIsGetPayReady] = useState(false);
 
-    const BUNDLE_URL = process.env.NEXT_PUBLIC_BUNDLE_URL || 'https://minio.finpos.global/getpay-cdn/webcheckout/bundle.js';
+    const BUNDLE_URL = process.env.NEXT_PUBLIC_BUNDLE_URL || 'https://minio.finpos.global/getpay-cdn/webcheckout/v5/bundle.js';
 
     const getOrderInformationHtml = (cartItems: Product[], totalAmount: number) => {
         let html = `
@@ -50,6 +51,11 @@ const Cart = () => {
     const orderInformationHtml = getOrderInformationHtml(cartItems, calculateTotal());
 
     const initializeGetPay = () => {
+        if (!window.GetPay || !isGetPayReady) {
+            toast.error('Payment system is not ready yet. Please try again.');
+            return;
+        }
+
         setIsLoading(true);
         const options:PaymentOptions = {
             userInfo: {
@@ -100,15 +106,21 @@ const Cart = () => {
         if (cartItems?.length > 0) {
             const script = document.createElement('script');
             script.src = BUNDLE_URL;
-            // script.src = '/bundle.js';
             script.async = true;
-            script.onload = () => console.log('GetPay script loaded successfully');
+            script.onload = () => {
+                console.log('GetPay script loaded successfully');
+                setTimeout(() => {
+                    setIsGetPayReady(true);
+                }, 100);
+            };
             document.body.appendChild(script);
+            
             return () => {
                 document.body.removeChild(script);
+                setIsGetPayReady(false);
             };
         }
-    }, []);
+    }, [cartItems]);
 
     return (<LoadingOverlay
             active={isLoading}
