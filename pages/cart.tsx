@@ -76,6 +76,7 @@ const Cart = () => {
             businessName: process.env.NEXT_PUBLIC_BUSINESS_NAME,
             imageUrl: process.env.NEXT_PUBLIC_LOGO_URL,
             currency: "NPR",
+            baseUrl: process.env.NEXT_PUBLIC_BASE_URL || 'https://getpay-uat.machbank.com/ecom-gateway/v1/secure-merchant/transactions',
             prefill: {
                 name: true, email: true, state: true, city: true, address: true, zipcode: true, country: true
             },

@@ -17,6 +17,7 @@ export interface PaymentOptions {
     businessName?: string;
     imageUrl?: string;
     currency: string;
+    baseUrl:string;
     prefill: {
         name: boolean;
         email: boolean;
